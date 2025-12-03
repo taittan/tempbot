@@ -1,0 +1,24 @@
+odp:
+  client:
+    # ODP Gateway 连接配置
+    host: 127.0.0.1
+    port: 8080
+    comp-id: CLIENT001
+    
+    # 心跳配置（秒）
+    heartbeat-interval: 3
+    
+    # 连接超时配置（秒）
+    connect-timeout: 10
+    read-timeout: 30
+    
+    # 重连配置
+    reconnect-enabled: true
+    reconnect-delay: 5
+
+# 日志配置
+logging:
+  level:
+    root: INFO
+    com.example.odp: DEBUG
+    io.netty: DEBUG

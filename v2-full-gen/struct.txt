@@ -1,0 +1,30 @@
+odp-client/
+├── pom.xml
+├── src/main/java/com/example/odp/
+│   ├── OdpClientApplication.java
+│   ├── config/
+│   │   └── OdpClientConfig.java
+│   ├── constants/
+│   │   └── OdpConstants.java
+│   ├── codec/
+│   │   ├── OdpMessageEncoder.java
+│   │   ├── OdpMessageDecoder.java
+│   │   └── OdpFrameDecoder.java
+│   ├── handler/
+│   │   ├── OdpClientHandler.java
+│   │   └── HeartbeatHandler.java
+│   ├── message/
+│   │   ├── OdpHeader.java
+│   │   ├── LookupRequest.java
+│   │   ├── LookupResponse.java
+│   │   └── Heartbeat.java
+│   ├── builder/
+│   │   └── OdpMessageBuilder.java
+│   ├── parser/
+│   │   └── OdpMessageParser.java
+│   ├── client/
+│   │   └── OdpNettyClient.java
+│   └── service/
+│       └── OdpClientService.java
+└── src/main/resources/
+    └── application.yml
