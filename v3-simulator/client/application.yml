@@ -1,0 +1,53 @@
+# src/main/resources/application.yml
+spring:
+  application:
+    name: odp-simulator-client
+
+odp:
+  client:
+    # Comp ID assigned by HKEX
+    comp-id: "HEXaaa"
+    # Password for the Comp ID
+    password: "Aa123"
+    # EP Application Version ID (certified by HKEX)
+    ep-appl-version-id: "1.0.0"
+    # Heartbeat interval in seconds (1-60)
+    heartbeat-interval-seconds: 3
+    # RSA public key path for password encryption
+    public-key-path: "classpath:key/public.pem"
+    
+    # Lookup Service configuration
+    lookup:
+      # Primary site primary Lookup Service
+      primary-site-primary:
+        host: "127.0.0.1"
+        port: 9001
+      # Primary site secondary Lookup Service
+      primary-site-secondary:
+        host: "127.0.0.1"
+        port: 9002
+      # Secondary site primary Lookup Service (only accessible during site-failover)
+      secondary-site-primary:
+        host: "127.0.0.1"
+        port: 9003
+      # Secondary site secondary Lookup Service
+      secondary-site-secondary:
+        host: "127.0.0.1"
+        port: 9004
+      # Retry wait time in milliseconds (5 seconds as per spec)
+      retry-wait-ms: 5000
+      # Connection timeout in milliseconds
+      connect-timeout-ms: 10000
+    
+    # Trading connection configuration
+    trading:
+      # Connection timeout in milliseconds
+      connect-timeout-ms: 30000
+      # Read timeout in milliseconds
+      read-timeout-ms: 60000
+
+logging:
+  level:
+    root: INFO
+    com.odp.simulator.client: DEBUG
+    io.netty: DEBUG

@@ -1,0 +1,90 @@
+odp-simulator-client/
+├── pom.xml
+├── src/
+│   └── main/
+│       ├── java/
+│       │   └── com/
+│       │       └── odp/
+│       │           └── simulator/
+│       │               └── client/
+│       │                   ├── OdpSimulatorClientApplication.java
+│       │                   ├── config/
+│       │                   │   ├── OdpClientProperties.java
+│       │                   │   └── NettyClientConfig.java
+│       │                   ├── protocol/
+│       │                   │   ├── OdpMessageType.java
+│       │                   │   ├── OdpDataType.java
+│       │                   │   ├── OdpMessageHeader.java
+│       │                   │   ├── OdpMessage.java
+│       │                   │   ├── OdpMessageFactory.java
+│       │                   │   └── messages/
+│       │                   │       ├── LookupRequest.java
+│       │                   │       ├── LookupResponse.java
+│       │                   │       ├── LogonRequest.java
+│       │                   │       ├── LogonResponse.java
+│       │                   │       ├── HeartbeatMessage.java
+│       │                   │       └── BaseOdpMessage.java
+│       │                   ├── codec/
+│       │                   │   ├── OdpMessageEncoder.java
+│       │                   │   ├── OdpMessageDecoder.java
+│       │                   │   └── FieldPresenceMap.java
+│       │                   ├── crypto/
+│       │                   │   └── OdpPasswordEncryptor.java
+│       │                   ├── handler/
+│       │                   │   ├── OdpMessageHandler.java
+│       │                   │   ├── LookupResponseHandler.java
+│       │                   │   ├── LogonResponseHandler.java
+│       │                   │   ├── HeartbeatHandler.java
+│       │                   │   └── OdpClientHandler.java
+│       │                   ├── session/
+│       │                   │   ├── OdpSession.java
+│       │                   │   ├── OdpSessionManager.java
+│       │                   │   └── OdpSessionState.java
+│       │                   ├── client/
+│       │                   │   ├── OdpLookupClient.java
+│       │                   │   ├── OdpTradingClient.java
+│       │                   │   └── OdpClientManager.java
+│       │                   └── service/
+│       │                       ├── OdpConnectionService.java
+│       │                       └── OdpOrderService.java
+│       └── resources/
+│           ├── application.yml
+│           └── key/
+│               └── public.pem
+
+//////
+Key Design Decisions
+Interface-based Design: All handlers implement OdpMessageHandler interface, promoting loose coupling.
+
+Little Endian Encoding: Multi-byte integers use Little Endian as specified in the ODP documentation.
+
+Fields Presence Map: Each message has a 12-byte bitmap indicating which fields are present.
+
+Password Encryption: Uses RSA-OAEP (2048-bit) with login time prefix as required by the protocol.
+
+Heartbeat: Uses Netty's IdleStateHandler to trigger heartbeats every 3 seconds when idle.
+
+Session Management: Centralized session state tracking with OdpSessionManager.
+
+Message Factory Pattern: OdpMessageFactory creates message instances based on type.
+
+Logging: Extensive DEBUG logging at critical points for troubleshooting.
+
+Pipeline Design:
+
+LoggingHandler for raw byte debugging
+IdleStateHandler for heartbeat timing
+OdpMessageDecoder/Encoder for protocol handling
+HeartbeatHandler for heartbeat processing
+OdpClientHandler for message routing
+Running the Application
+Ensure you have a public key file at src/main/resources/key/public.pem
+Configure the lookup service endpoints in application.yml
+Run: mvn spring-boot:run
+The application will:
+
+Connect to the lookup service
+Get the gateway connection info
+Connect to the trading gateway
+Send encrypted logon request
+Start sending heartbeats every 3 seconds
