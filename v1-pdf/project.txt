@@ -1,0 +1,28 @@
+pdf-table-reader/
+├── pom.xml
+├── src/
+│   └── main/
+│       ├── java/
+│       │   └── com/
+│       │       └── example/
+│       │           └── pdfreader/
+│       │               ├── PdfTableReaderApplication.java
+│       │               ├── config/
+│       │               │   └── PdfConfig.java
+│       │               ├── entity/
+│       │               │   └── OdpBodyField.java
+│       │               ├── repository/
+│       │               │   └── OdpBodyFieldRepository.java
+│       │               ├── service/
+│       │               │   └── PdfTableService.java
+│       │               └── runner/
+│       │                   └── PdfReaderRunner.java
+│       └── resources/
+│           └── application.yml
+└── sources/
+    └── pdf/
+        └── sample.pdf
+
+写一个java 17 的project，使用springboot运行。这个程序会读取一个pdf，pdf文件路径在sources/pdf/sample.pdf, pdf的密码是mima1234, 需要密码才能打开pdf。程序会读取pdf指定页数的表格(table)的内容，比如可以在application.yml 有一个配置，配置的值是页数，页数可以是单页，也支持多页，如果配置了多页，说明表格跨多页，需要连续读取多页的table内容。
+表格都是四列，第一列的列名是#，第二列的列名是Field Name, 第三列的列名是Data Type, 第四列的列名是Description。
+读取到表格之后，把每一行的内容在console打印出来。同时会把table的内容insert 到一个oracle 的数据库表，数据库表名是odp_body_fields。odp_body_fields的表结构是number(3), char(80 char), char(20 char), char(1000 char). 数据库的信息也配置在application.yml。
